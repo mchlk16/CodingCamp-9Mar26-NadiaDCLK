@@ -1,0 +1,40 @@
+# Kiro/IDE specific files
+.kiro/
+
+# Test files and verification documents
+tests/
+
+# Node modules (if you add npm later)
+node_modules/
+package-lock.json
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build outputs (if you add a build process later)
+dist/
+build/
+*.min.js
+*.min.css
