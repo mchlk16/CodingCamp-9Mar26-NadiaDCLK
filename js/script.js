@@ -1,4 +1,70 @@
 // ============================================
+// Theme Manager
+// ============================================
+const ThemeManager = (() => {
+  let themeToggleBtn;
+  
+  function init() {
+    themeToggleBtn = document.getElementById('themeToggle');
+    
+    // Load saved theme
+    const savedTheme = StorageUtil.get('theme', 'light');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggleBtn.textContent = '☀️';
+    }
+    
+    // Setup event listener
+    themeToggleBtn.addEventListener('click', toggleTheme);
+  }
+  
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+    StorageUtil.set('theme', isDark ? 'dark' : 'light');
+  }
+  
+  return { init };
+})();
+
+// ============================================
+// User Name Manager
+// ============================================
+const UserNameManager = (() => {
+  let userNameElement;
+  
+  function init() {
+    userNameElement = document.getElementById('userName');
+    
+    // Load saved name
+    const savedName = StorageUtil.get('userName', 'Guest');
+    userNameElement.textContent = savedName;
+    
+    // Setup event listeners
+    userNameElement.addEventListener('blur', saveName);
+    userNameElement.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        userNameElement.blur();
+      }
+    });
+  }
+  
+  function saveName() {
+    const name = userNameElement.textContent.trim();
+    if (name) {
+      StorageUtil.set('userName', name);
+    } else {
+      userNameElement.textContent = 'Guest';
+      StorageUtil.set('userName', 'Guest');
+    }
+  }
+  
+  return { init };
+})();
+
+// ============================================
 // Storage Utility Module
 // ============================================
 const StorageUtil = (() => {
@@ -219,11 +285,14 @@ const TaskList = (() => {
   let taskInput;
   let addBtn;
   let taskListElement;
+  let sortSelect;
+  let currentSort = 'date';
 
   function init() {
     taskInput = document.getElementById('taskInput');
     addBtn = document.getElementById('addBtn');
     taskListElement = document.getElementById('taskList');
+    sortSelect = document.getElementById('sortTasks');
 
     load();
     setupEventListeners();
@@ -232,6 +301,10 @@ const TaskList = (() => {
 
   function load() {
     tasks = StorageUtil.get('tasks', []);
+    currentSort = StorageUtil.get('taskSort', 'date');
+    if (sortSelect) {
+      sortSelect.value = currentSort;
+    }
   }
 
   function save() {
@@ -243,6 +316,40 @@ const TaskList = (() => {
     taskInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleAdd();
     });
+    sortSelect.addEventListener('change', handleSort);
+  }
+
+  function handleSort() {
+    currentSort = sortSelect.value;
+    StorageUtil.set('taskSort', currentSort);
+    render();
+  }
+
+  function sortTasks(tasksToSort) {
+    const sorted = [...tasksToSort];
+    
+    switch (currentSort) {
+      case 'status':
+        // Incomplete tasks first, then completed
+        sorted.sort((a, b) => {
+          if (a.completed === b.completed) {
+            return b.createdAt - a.createdAt;
+          }
+          return a.completed ? 1 : -1;
+        });
+        break;
+      case 'name':
+        // Alphabetical by text
+        sorted.sort((a, b) => a.text.localeCompare(b.text));
+        break;
+      case 'date':
+      default:
+        // Newest first
+        sorted.sort((a, b) => b.createdAt - a.createdAt);
+        break;
+    }
+    
+    return sorted;
   }
 
   function handleAdd() {
@@ -294,7 +401,8 @@ const TaskList = (() => {
 
   function render() {
     taskListElement.innerHTML = '';
-    tasks.forEach(task => {
+    const sortedTasks = sortTasks(tasks);
+    sortedTasks.forEach(task => {
       const li = document.createElement('li');
       li.className = `task-item ${task.completed ? 'completed' : ''}`;
       
@@ -501,6 +609,8 @@ const QuickLinks = (() => {
 // Application Initialization
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+  ThemeManager.init();
+  UserNameManager.init();
   GreetingWidget.init();
   FocusTimer.init();
   TaskList.init();

@@ -141,7 +141,7 @@ body {
 .timer-btn {
     padding: 12px 24px;
     background: white;
-    color: #f5576c;
+    color: #0D2440;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -339,7 +339,7 @@ body {
 #addLinkBtn {
     padding: 12px 24px;
     background: white;
-    color: #00f2fe;
+    color: #0D2440;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -417,4 +417,157 @@ body {
 
 .link-delete-btn:active {
     transform: scale(0.95);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(20deg);
+}
+
+/* User Name Editable */
+.user-name {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: text;
+    transition: all 0.3s;
+    display: inline-block;
+    min-width: 100px;
+}
+
+.user-name:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.user-name:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.user-name:empty:before {
+    content: attr(placeholder);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Task Header with Sort */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-header h2 {
+    margin: 0;
+}
+
+.sort-select {
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.sort-select:hover {
+    border-color: #667eea;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #1a1a2e;
+}
+
+body.dark-mode .container {
+    background: #16213e;
+}
+
+body.dark-mode .dashboard-header {
+    border-bottom-color: #2a2a3e;
+}
+
+body.dark-mode .dashboard-header h1 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .task-list-section {
+    background: #0f1419;
+}
+
+body.dark-mode .task-list-section h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .greeting-widget,
+body.dark-mode .focus-timer,
+body.dark-mode .quick-links {
+    background: #2a4d6e;
+}
+
+body.dark-mode #taskInput,
+body.dark-mode .sort-select {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode #taskInput:focus,
+body.dark-mode .sort-select:focus {
+    border-color: #667eea;
+}
+
+body.dark-mode .task-item {
+    background: #1a1a2e;
+}
+
+body.dark-mode .task-item:hover {
+    background: #252538;
+}
+
+body.dark-mode .task-text {
+    color: #e0e0e0;
+}
+
+body.dark-mode .task-edit-input {
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+body.dark-mode #linkNameInput,
+body.dark-mode #linkUrlInput {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+body.dark-mode #linkNameInput:focus,
+body.dark-mode #linkUrlInput:focus {
+    background: rgba(255, 255, 255, 0.15);
 }
